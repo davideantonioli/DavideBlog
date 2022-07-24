@@ -12,9 +12,9 @@ ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_cache$", "\\.knit\\.md$", "\\.utf8\
 #[[menu.main]]
  #   name = "Home"
   #  url = "/home/"
-[[menu.main]]
-    name = "About"
-    url = "/about/"
+#[[menu.main]]
+ #   name = "About"
+  #  url = "/about/"
 # [[menu.main]]
   #  name = "Twitter"
    # url = "https://twitter.com/rstudio"
