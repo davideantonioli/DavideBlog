@@ -1,0 +1,8 @@
+---
+title: Hi Hugo
+author: ''
+date: '2022-07-24'
+slug: hi-hugo
+categories: []
+tags: []
+---
