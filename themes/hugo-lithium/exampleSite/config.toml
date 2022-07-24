@@ -1,6 +1,6 @@
 baseurl = "/"
 languageCode = "en-us"
-title = "A Hugo website"
+title = "Davide Antonioli Blog"
 theme = "hugo-lithium"
 googleAnalytics = ""
 disqusShortname = ""
@@ -12,12 +12,12 @@ ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_cache$", "\\.knit\\.md$", "\\.utf8\
 [[menu.main]]
     name = "About"
     url = "/about/"
-[[menu.main]]
-    name = "GitHub"
-    url = "https://github.com/rstudio/blogdown"
-[[menu.main]]
-    name = "Twitter"
-    url = "https://twitter.com/rstudio"
+#[[menu.main]]
+   # name = "GitHub"
+ #   url = "https://github.com/rstudio/blogdown"
+#[[menu.main]]
+ #   name = "Twitter"
+  #  url = "https://twitter.com/rstudio"
 
 [params]
     description = "A website built through Hugo and blogdown."
@@ -34,11 +34,11 @@ ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_cache$", "\\.knit\\.md$", "\\.utf8\
     # path to the favicon, under "static"
     favicon = "favicon.ico"
 
-    [params.logo]
-    url = "logo.png"
-    width = 50
-    height = 50
-    alt = "Logo"
+   # [params.logo]
+    #url = "logo.png"
+    #width = 50
+    #height = 50
+    #alt = "Logo"
 
 [markup]
   defaultMarkdownHandler = "goldmark"
