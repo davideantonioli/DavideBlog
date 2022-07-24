@@ -2,7 +2,7 @@
 date: "2016-05-05T21:48:51-07:00"
 title: About
 ---
-I currently am a Full Professor in Economics in the [Department of Economics and Management](http://eco.unife.it/it) at the University of Ferrara.
+I am a Full Professor in Economics in the [Department of Economics and Management](http://eco.unife.it/it) at the University of Ferrara.
 
 
 -----
