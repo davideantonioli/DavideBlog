@@ -1,0 +1,110 @@
+---
+title: RdC
+author: ''
+date: '2022-07-25'
+slug: rdc
+categories: []
+tags:
+  - RdC
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(httr)
+library(jsonlite)
+library(tidyr)
+library(dplyr)
+library(readxl)
+library(sf)
+library(ggplot2)
+library(doBy)
+```
+## A measure of social protection in Italy: Reddito di Cittadinanza (RdC)
+
+The RdC, an articulated measure of social protection in Italy, targets the most vulnerable regions. 
+
+This form of 'basic income' is designed as an active policy on the labour market, since it works as an economic support to the family income associated with a path of work and social reintegration, given that the beneficiaries need to be immediately available to train and to work. The RdC is also a measure to contrast poverty. This dual soul of the RdC is one of its strengths, if well designed, but it is also one of its weaknesses, on which criticism of it has been based. 
+
+It possible to appreciate from the regional (NUTS2 geographical unit) map below that are the Southern regions to receive larger amounts of RdC. As the Southern regions are those characterized by a higher level of social and economic vulnerability in comparison to the Northern regions, we may say that the RdC is doing its job as an instrument to contrast poverty.
+
+
+
+```{r rdc, include=FALSE}
+rdc_data <- read_excel("G:/Il mio Drive/R-Blog/Data-RdC/Dati.xlsx")
+reg2022 <- st_read("G:/Il mio Drive/R-Blog/Data-RdC/Reg01012022")
+rdc_data_prov <- read_excel("G:/Il mio Drive/R-Blog/Data-RdC/Dati_Prov.xlsx")
+
+ggplot(data = reg2022) +
+  geom_sf()
+
+rdc_data <- rename(rdc_data, DEN_REG = "REGIONE")
+collapse_rdc <- rdc_data %>% group_by(DEN_REG) %>%
+  summarize(IMPORTO_TOT_EROGATO=mean(IMPORTO_TOT_EROGATO), NUCLEI_BENEFICIARI=mean(NUCLEI_BENEFICIARI))
+
+collapse_rdc <- mutate(collapse_rdc, ImpErogQuart = cut_interval(IMPORTO_TOT_EROGATO, n = 10)) 
+# library(gtools) 
+# collapse_rdc$ImpErogQuart <- quantcut(collapse_rdc$IMPORTO_TOT_EROGATO)
+
+# right_join(reg2022, collapse_rdc, by = "DEN_REG") %>% 
+#   ggplot(aes(fill = ImpErogQuart)) +
+#   geom_sf(col = "black"   # bordo dei poligoni
+#   ) +
+#   # tema vuoto
+#   theme_void() +
+#   # scala del colori
+#   scale_fill_distiller(direction = 1) +
+#   # eliminare il titolo della legenda
+#   theme(legend.title=element_blank())
+
+prov2022 <- st_read("G:/Il mio Drive/R-Blog/Data-RdC/ProvCM01012022")
+
+ggplot(data = prov2022) +
+  geom_sf()
+
+rdc_data1 <- rename(rdc_data_prov, SIGLA = "SIGLA_PROVINCIA")
+collapse_rdc1 <- rdc_data1 %>% group_by(SIGLA) %>%
+  summarize(IMPORTO_TOT_EROGATO=mean(IMPORTO_TOT_EROGATO), NUCLEI_BENEFICIARI=mean(NUCLEI_BENEFICIARI))
+
+collapse_rdc1 <- mutate(collapse_rdc1, ImpErogQuart = cut_interval(IMPORTO_TOT_EROGATO, n = 10)) 
+
+
+```
+
+```{r rdcplot1, echo=FALSE, warning=FALSE, message=FALSE}
+
+right_join(reg2022, collapse_rdc, by = "DEN_REG") %>% 
+    ggplot(aes(fill = IMPORTO_TOT_EROGATO)) +
+  geom_sf(col = "black"   # bordo dei poligoni
+  ) +
+  # tema vuoto
+  theme_void() +
+    # scala del colori
+  scale_fill_distiller(palette="RdBu", direction=-1) +
+  # eliminare il titolo della legenda
+  theme(legend.title=element_blank()) +
+  labs(title = "Average RdC amount by Region (Eurostat NUTS2). Years 2019-2020",
+              #subtitle = "Plot of length by dose",
+              caption = "Data source: Inps")
+
+```
+It must be noted that there are within regional heterogeneity both in the northern and (especially) in the southern part of Italy, as a map by province (NUTS3 geographical unit) shows.
+
+```{r rdcplot2, echo=FALSE, warning=FALSE, message=FALSE}
+
+right_join(prov2022, collapse_rdc1, by = "SIGLA") %>% 
+  ggplot(aes(fill = IMPORTO_TOT_EROGATO)) +
+  geom_sf(col = "black"   # bordo dei poligoni
+  ) +
+  # tema vuoto
+  theme_void() +
+  # scala del colori
+  scale_fill_distiller(palette = "RdBu") +
+  # eliminare il titolo della legenda
+  theme(legend.title=element_blank()) +
+  labs(title = "Average RdC amount by Province (Eurostat NUTS3). Years 2019-2020",
+              #subtitle = "Plot of length by dose",
+              caption = "Data source: Inps")
+
+```
+For further insights (in Italian language) see <https://www.inps.it/dati-ricerche-e-bilanci/osservatori-statistici-e-altre-statistiche/dati-cartacei-rdc>
