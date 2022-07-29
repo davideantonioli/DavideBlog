@@ -12,7 +12,7 @@ The idea of this blog is to bring to it some evidence-based socio-economic resea
 ### Links
 [My website](https://davideantonioli.github.io/)
 
-[Deapartment of Economics and Management](http://eco.unife.it/it)
+[Department of Economics and Management](http://eco.unife.it/it)
 
 [IdeasRepec](http://ideas.repec.org/f/pan296.html)
 
