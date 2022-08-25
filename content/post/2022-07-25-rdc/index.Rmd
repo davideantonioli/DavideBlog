@@ -31,9 +31,9 @@ It is possible to appreciate from the regional (NUTS2 geographical unit) map bel
 
 
 ```{r rdc, include=FALSE}
-rdc_data <- read_excel("G:/Il mio Drive/R-Blog/Data-RdC/Dati.xlsx")
-reg2022 <- st_read("G:/Il mio Drive/R-Blog/Data-RdC/Reg01012022")
-rdc_data_prov <- read_excel("G:/Il mio Drive/R-Blog/Data-RdC/Dati_Prov.xlsx")
+rdc_data <- read_excel("G:/Il mio Drive/R/R-Blog-Data/Data-RdC/Dati.xlsx")
+reg2022 <- st_read("G:/Il mio Drive/R/R-Blog-Data/Data-RdC/Reg01012022")
+rdc_data_prov <- read_excel("G:/Il mio Drive/R/R-Blog-Data/Data-RdC/Dati_Prov.xlsx")
 
 ggplot(data = reg2022) +
   geom_sf()
@@ -57,7 +57,7 @@ collapse_rdc <- mutate(collapse_rdc, ImpErogQuart = cut_interval(IMPORTO_TOT_ERO
 #   # eliminare il titolo della legenda
 #   theme(legend.title=element_blank())
 
-prov2022 <- st_read("G:/Il mio Drive/R-Blog/Data-RdC/ProvCM01012022")
+prov2022 <- st_read("G:/Il mio Drive/R/R-Blog-Data/Data-RdC/ProvCM01012022")
 
 ggplot(data = prov2022) +
   geom_sf()

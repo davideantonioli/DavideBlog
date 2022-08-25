@@ -1,0 +1,128 @@
+---
+title: 'Italy: corruption perception and control'
+author: ''
+date: '2022-08-24'
+slug: italy-corruption-perception
+categories: []
+tags: []
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(httr)
+library(jsonlite)
+library(tidyr)
+library(dplyr)
+library(readxl)
+library(sf)
+library(ggplot2)
+library(doBy)
+```
+```{r Cleaning, include=FALSE}
+
+library(readxl)
+Dataset <- read_excel("G:/Il mio Drive/R/R-Blog-Data/Corruption/Dataset.xlsx")
+#Dataset <- read_excel("G:/My Drive/Davide/WorkingPapers/2022/PaperGiuliana/Data/Dataset.xlsx")
+
+GlobalEc <- read_excel("G:/Il mio Drive/R/R-Blog-Data/Corruption/GlobalEc.xlsx")
+#GlobalEc <- read_excel("G:/My Drive/Davide/WorkingPapers/2022/PaperGiuliana/Data/GlobalEc.xlsx")
+colnames(Dataset)[colnames(Dataset) == 'Name'] <- 'Country'
+GlobalEc$wave <- substr(GlobalEc$Year,3,4)
+
+View(Dataset)
+
+library(plm)
+library(panelr)
+library(stargazer)
+library(tidyverse)
+library(gplots)
+library(foreign)
+library(lmtest)
+library(AER)
+
+LongDtemp <- long_panel(Dataset, prefix = "", label_location = "end", begin = 13, end = 21)
+
+#LongD<-subset(LongDtemp, wave!="13" & wave!="21")
+
+
+LongDataset_temp <- pdata.frame(LongDtemp, index=c("Country", "wave"))
+Longdataset_tempbis <- merge(LongDataset_temp, GlobalEc, by=c("Country","wave"))
+LongDataset <- pdata.frame(Longdataset_tempbis, index=c("Country", "wave"))
+
+colnames(LongDataset)[colnames(LongDataset) == 'Control.of.corruption...2.5.weak..2.5.strong.'] <- 'CorrupControl'
+colnames(LongDataset)[colnames(LongDataset) == 'Government.effectiveness.index...2.5.weak..2.5.strong.'] <- 'GovEffect'
+
+CountrySubs <- subset(LongDataset, Country=="Italy" | Country=="Germany" | Country=="France" | Country=="Spain")
+
+```
+As the national political elections approach (25th of September 2022) it might worth pointing out the Italian situation, compared with other relevant EU countries like France, Germany and Spain, in terms of a governance dimension associated to corruption perception and control.
+
+Here I present two indexes: one coming from the Transparency International organisation (Fig.1) and the other coming from The World Bank (Fig.2) over a period going from 2013 to 2021 (when available).
+
+The first index provides the Corruption Perception Index (CPI) and the second one the Control of Corruption index.
+
+For both the indexes the higher they are the better it is for the country.
+
+```{r plot_corrup, echo=FALSE, warning=FALSE, message=FALSE}
+
+## define base for the graphs and store in object 'p'
+p <- ggplot(data = CountrySubs, aes(x = wave, y = CorruptionIndex, group = Country, linetype=Country, shape=Country))
+
+p + geom_point() +
+  geom_line() +
+  labs(x='Years', y='CPI',
+       title='Fig.1: CPI comparison by four EU countries',
+       caption='Source: Transparency International') +
+    cowplot::theme_cowplot()
+
+```
+
+```{r plot_rli, include=FALSE}
+
+## define base for the graphs and store in object 'p'
+p <- ggplot(data = CountrySubs, aes(x = wave, y = RLI, group = Country, linetype=Country, shape=Country))
+
+p + geom_point() +
+  geom_line() +
+  labs(x='Years', y='Rule of Law Index',
+       title='Rule of Law Index comparison by four EU countries') +
+    cowplot::theme_cowplot()
+
+```
+
+```{r plot_goveeffect, include=FALSE}
+
+## define base for the graphs and store in object 'p'
+p <- ggplot(data = CountrySubs, aes(x = wave, y = GovEffect, group = Country, linetype=Country, shape=Country))
+
+p + geom_point() +
+  geom_line() +
+  labs(x='Years', y='Government Effectiveness Index',
+       title='Government Effectiveness Index comparison by four EU countries') +
+    cowplot::theme_cowplot()
+
+```
+
+```{r plot_corrcontrol, echo=FALSE, warning=FALSE, message=FALSE}
+
+## define base for the graphs and store in object 'p'
+p <- ggplot(data = CountrySubs, aes(x = wave, y = CorrupControl, group = Country, linetype=Country, shape=Country))
+
+p + geom_point() +
+  geom_line() +
+  labs(x='Years', y='Corruption Control Index',
+       title='Fig. 2: Corruption Control Index comparison by four EU countries',
+       caption='Source: The World Bank') +
+    cowplot::theme_cowplot()
+
+```
+As we can see the performance of Italy is the lowest in this comparisons, pointing out a serious problem for the country on this governance dimension.
+
+The elections are a moment in which the voters may choose those political parties whose candidates have an unimpeachable personal history.
+
+For further insights on the reported indexes see: 
+
+<https://www.transparency.org/en/cpi/2021>
+
+<https://databank.worldbank.org/databases/control-of-corruption>
