@@ -46,7 +46,7 @@ A picture of the diffusion of the working from home modality during and 'after' 
 
 A clear huge revolution in the work organisation, which can not be dismissed as a temporary measure to overcome the Covid-19 pandemic.
 
-A simple measure gives count of the phenomenon. The average percent of workers (employees) that usually work from home in the following three years: `r M2019`%, `r M2020`%, `r M2021`%.
+A simple measure gives count of the phenomenon. The average percent of workers (employees) that usually work from home in the following three years: `r M2019`%; `r M2020`%; `r M2021`%.
 
 Moreover, as we can appreciate, the dynamic of the percentage of employees usually working from home (PercWFH) was rather flat in the past thirty years, with a peak in the last two.
 
@@ -69,4 +69,8 @@ tail(10) %>%
 
 ```
 
-For further insights see <https://ec.europa.eu/eurostat/web/products-eurostat-news/-/ddn-20210923-1>.
+For further insights see: 
+
+<https://www.irsmart.eu/>
+
+<https://ec.europa.eu/eurostat/web/products-eurostat-news/-/ddn-20210923-1>.
